@@ -96,6 +96,7 @@ ARA ARCHITECTURE
         o	Synchronization signals ensure scalar and vector operations progress without conflicts.
 
 
+
 VRF ACCESSSING:
 
 1. Address Generation and Data Access
@@ -137,6 +138,22 @@ Key Features of VLSU-VRF Access:
     •	Scalability: The architecture scales efficiently with the number of lanes, as each lane operates on its own chunk of the VRF.
 
 
+SLDU:
+    The SLDU (Slide Load Unit) in some vector processor architectures, like the one you're describing, is responsible for handling instructions that must access all Vector Register File (VRF) banks at once. This typically happens in operations that involve vectorized reductions, parallel processing, or operations that require simultaneous access to multiple vector registers across different VRF banks.
+    Function of the SLDU in This Context:
+        •	Accessing All VRF Banks: The SLDU is designed to efficiently access all banks of the VRF simultaneously. This is essential for operations that need to process entire vectors or multiple elements in parallel, especially when the data is spread across multiple VRF banks.
+        •	Parallel Processing: When performing parallel operations, such as reduction (e.g., summing all elements of a vector or computing a dot product), the SLDU ensures that the data is fetched in parallel from all VRF banks to provide the needed operands to functional units (like VALU, VMUL, VFPU).
+        •	Reduction Operations: The SLDU is often used for reduction operations, which typically require accessing all elements of a vector (or multiple vectors) at once, processing them in parallel, and then applying a reduction operator (e.g., sum, max, average, etc.).
+    Architectural Overview of SLDU's Role:
+    In this architecture, the SLDU:
+        1.	Operates in Parallel: It is responsible for fetching operands from all VRF banks simultaneously, enabling the parallel processing of vectors.
+        2.	Handles Reduction Instructions: It supports operations that require accessing and reducing the values from all vector elements in the VRF at once.
+        3.	Coordinates with Other Units: It works closely with other functional units and components (like the Operand Request Unit, Crossbars, and Arbiter) to ensure efficient data access, scheduling, and result storage.
+    Example Use Cases of SLDU:
+        •	Reduction across Multiple Vectors: For example, summing all elements of a vector (or multiple vectors) that are distributed across VRF banks.
+        •	Max/Min Operations: Accessing all vector elements to compute the maximum or minimum value across a vector in parallel.
+        •	Dot Product Computation: Fetching multiple vector elements across banks and performing a dot product operation.
+
 
 TOOL CHAINS:
 
@@ -153,19 +170,3 @@ GitHub - andestech/riscv-llvm-toolchain
 
 5. Verilator: Verilator is a tool for converting Verilog code into C++ or SystemC code to facilitate simulation and testing of digital systems. It is widely used in hardware design verification due to its performance advantages over traditional interpreters. Verilator supports various SystemVerilog constructs and can optimize the generated code for improved simulation speed.
 
-
-SLDU:
-    The SLDU (Slide Load Unit) in some vector processor architectures, like the one you're describing, is responsible for handling instructions that must access all Vector Register File (VRF) banks at once. This typically happens in operations that involve vectorized reductions, parallel processing, or operations that require simultaneous access to multiple vector registers across different VRF banks.
-    Function of the SLDU in This Context:
-        •	Accessing All VRF Banks: The SLDU is designed to efficiently access all banks of the VRF simultaneously. This is essential for operations that need to process entire vectors or multiple elements in parallel, especially when the data is spread across multiple VRF banks.
-        •	Parallel Processing: When performing parallel operations, such as reduction (e.g., summing all elements of a vector or computing a dot product), the SLDU ensures that the data is fetched in parallel from all VRF banks to provide the needed operands to functional units (like VALU, VMUL, VFPU).
-        •	Reduction Operations: The SLDU is often used for reduction operations, which typically require accessing all elements of a vector (or multiple vectors) at once, processing them in parallel, and then applying a reduction operator (e.g., sum, max, average, etc.).
-    Architectural Overview of SLDU's Role:
-    In this architecture, the SLDU:
-        1.	Operates in Parallel: It is responsible for fetching operands from all VRF banks simultaneously, enabling the parallel processing of vectors.
-        2.	Handles Reduction Instructions: It supports operations that require accessing and reducing the values from all vector elements in the VRF at once.
-        3.	Coordinates with Other Units: It works closely with other functional units and components (like the Operand Request Unit, Crossbars, and Arbiter) to ensure efficient data access, scheduling, and result storage.
-    Example Use Cases of SLDU:
-        •	Reduction across Multiple Vectors: For example, summing all elements of a vector (or multiple vectors) that are distributed across VRF banks.
-        •	Max/Min Operations: Accessing all vector elements to compute the maximum or minimum value across a vector in parallel.
-        •	Dot Product Computation: Fetching multiple vector elements across banks and performing a dot product operation.
